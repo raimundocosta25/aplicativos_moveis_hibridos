@@ -1,0 +1,47 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Cadastro</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+  <form>
+    <ion-list>
+      <ion-item>
+        <ion-label floating>Email</ion-label>
+        <ion-input type="text" name="email" [(ngModel)]="user.email"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Senha</ion-label>
+        <ion-input type="password" name="password" [(ngModel)]="user.password"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label stacked>Nome</ion-label>
+        <ion-input type="text" name="nome" [(ngModel)]="usuario.nome"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label stacked>Telefone</ion-label>
+        <ion-input type=text name="telefone" [(ngModel)]="usuario.telefone"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label stacked>CPF</ion-label>
+        <ion-input type="text" name="cpf" [(ngModel)]="usuario.cpf"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <button ion-button full block color="primary" (click)="registroUser(ponto)">Salvar</button>
+      </ion-item>
+    </ion-list>
+  </form>
+
+  <a (click)="irLogin()"><p>Faça o login!!!</p></a>
+
+</ion-content>
