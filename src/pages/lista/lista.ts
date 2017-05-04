@@ -31,24 +31,16 @@ export class ListaPage {
 
     }
 
-    ionViewDidLoad() {
-
+    ionViewWillEnter() {
       this.pontos = this.localPrv.getPontos();
-
+      console.log(this.usuarioPrv.currentUser);
     }
 
     registroUser(ponto){
       let user = new Usuario();
-      user = this.usuarioPrv.currentUser;
-      console.log(ponto);
+      user = this.usuarioPrv.currentUsuario;
+      console.log(user);
       this.localPrv.addUsuario(ponto, user);
     }
 
-    atualizarTarefa(usuario:Usuario){
-      this.navCtrl.push(ListaPage,{'usuario' : usuario});
-    }
-
-    adicionarTarefa(){
-      this.navCtrl.push(ListaPage,{'usuario' : new Usuario()});
-    }
   }

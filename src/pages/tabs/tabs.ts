@@ -10,21 +10,11 @@ import { HomePage } from '../home/home';
 })
 export class TabsPage {
 
-  tab1Root = ListaPage;
-  tab2Root = HomePage;
+  tab1Root = HomePage;
+  tab2Root = ListaPage;
   tab3Root = LoginPage;
 
   constructor(public navCtrl: NavController) {
 
-  }
-
-  tab1RootF(){
-    this.navCtrl.setRoot(ListaPage);
-  }
-  tab2RootF(){
-    this.navCtrl.setRoot(HomePage);
-  }
-  tab3RootF(){
-    this.navCtrl.setRoot(LoginPage);
   }
 }

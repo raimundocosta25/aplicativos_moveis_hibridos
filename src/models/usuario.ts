@@ -4,4 +4,5 @@ export class Usuario{
   cpf:string;
   keyReference:string;
   uid:string;
+  pontoKey:string;
 }

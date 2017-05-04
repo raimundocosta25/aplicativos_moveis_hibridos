@@ -1,4 +1,4 @@
-import { Injectable, EventEmitter } from '@angular/core';
+import { Injectable, EventEmitter, NgZone } from '@angular/core';
 
 import { LoadingController, AlertController, App } from 'ionic-angular';
 
@@ -28,11 +28,14 @@ export class UsuarioProvider {
   getSuccess = new EventEmitter<boolean>();
   nav:any;
   uid:any;
-  currentUser:Usuario;
+  currentUser:any;
+  autenticado:boolean;
+  currentUsuario:Usuario;
   reference;
 
   constructor(private alertCtrl: AlertController,
     private loadingCtrl: LoadingController,
+    public ngZone: NgZone,
     private app: App) {
 
     this.loginSucessoEventEmitter = new EventEmitter();
@@ -40,13 +43,30 @@ export class UsuarioProvider {
 
     this.nav = app.getActiveNav();
     this.inicialize();
-    this.currentUser = new Usuario();
+    this.currentUsuario = new Usuario();
     // this.getCurrent();
+
+    firebase.auth().onAuthStateChanged(usuario => {
+      this.callbackStateChange(usuario);
+    })
 
   }
 
   inicialize(){
     this.reference = firebase.database().ref('/usuarios/');
+  }
+
+  private callbackStateChange(usuario){
+    this.ngZone.run( () => {
+      if(usuario == null){
+        this.currentUser = null;
+        this.autenticado = false;
+      } else {
+        this.currentUser = usuario;
+        this.autenticado = true;
+        this.getCurrent();
+     }
+    })
   }
 
   registrarUsuario(usuario:Usuario){
@@ -96,17 +116,15 @@ export class UsuarioProvider {
   }
 
   getCurrent() {
-    this.uid = firebase.auth().currentUser.uid;
+    this.uid = this.currentUser.uid;
     let user = new Usuario();
     this.reference.on('value', (snapshot) => {
       let usuario = new Usuario();
         snapshot.forEach( elemento => {
           usuario = elemento.val();
           if(usuario.uid == this.uid){
-            console.log("Entrou aqui?");
-            this.currentUser = usuario;
+            this.currentUsuario = usuario;
             this.getSuccess.emit(true);
-            console.log(this.currentUser);
           }
           // console.log(this.pontos);
         })

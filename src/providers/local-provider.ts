@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core';
+import { App } from 'ionic-angular';
 
 import { Geolocation } from '@ionic-native/geolocation';
 
 import { Ponto } from '../models/ponto';
 import { Usuario } from '../models/usuario';
+
+import { ListaPage } from '../pages/lista/lista';
 
 import firebase from 'firebase';
 
@@ -18,11 +21,13 @@ declare var google;
 @Injectable()
 export class LocalProvider {
 
+  nav:any;
   reference;
   pontos:Ponto;
   array:Array<number>;
 
-  constructor() {
+  constructor(private app: App) {
+
     this.pontos = new Ponto();
     this.inicialize();
 
@@ -89,10 +94,27 @@ export class LocalProvider {
   }
 
   addUsuario(ponto:Ponto, usuario:Usuario){
-    ponto.usuarios = new Array<Usuario>();
-    let keyRef = ponto.keyReference;
-    ponto.usuarios.push(usuario);
-    this.reference.child(keyRef).update(ponto);
+
+    if(usuario.pontoKey == undefined){
+      usuario.pontoKey = ponto.keyReference;
+      firebase.database().ref('/usuarios/').child(usuario.keyReference).update(usuario);
+      ponto.usuarios = new Array<Usuario>();
+      let keyRef = ponto.keyReference;
+      ponto.usuarios.push(usuario);
+      this.reference.child(keyRef).update(ponto);
+    }else{
+      this.reference.on('value', (snapshot) => {
+          snapshot.forEach( elemento => {
+            let el = elemento.val();
+            if(el.keyReference == usuario.pontoKey){
+              var index = el.usuarios.indexOf(usuario);
+              el.usuarios.splice(index, 1);
+              this.reference.child(el.keyReference).update(el);
+            }
+          })
+          // console.log("Entrou");
+      })
+    }
   }
 
 }

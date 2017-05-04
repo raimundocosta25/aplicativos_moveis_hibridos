@@ -33,6 +33,9 @@ export class HomePage {
     public toastCtrl: ToastController,
     public ngZone: NgZone) {
 
+  }
+
+  ionViewWillEnter() {
     this.loadMap();
 
     this.emitirRetorno.subscribe(status => {
@@ -42,7 +45,6 @@ export class HomePage {
     });
 
     this.pontos = new Ponto();
-
   }
 
   inicio() {

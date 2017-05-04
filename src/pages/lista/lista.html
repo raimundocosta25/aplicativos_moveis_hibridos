@@ -5,25 +5,38 @@
     </button>
     <ion-title>Cadastro</ion-title>
     <!-- <ion-buttons end>
-      <button ion-button icon-only (click)="addCadastro()">
-        <ion-icon name="add"></ion-icon>
-      </button>
-    </ion-buttons> -->
-  </ion-navbar>
+    <button ion-button icon-only (click)="addCadastro()">
+    <ion-icon name="add"></ion-icon>
+  </button>
+</ion-buttons> -->
+</ion-navbar>
 </ion-header>
 
 
-<ion-content padding>
-  <ion-content>
-    <ion-list>
-        <ion-item *ngFor="let ponto of pontos">
-          <p>{{ponto.keyReference}}</p>
-          <p>{{ponto.lat}}</p>
-          <ion-item *ngFor="let user of ponto.usuarios">
-            <p>{{ user.nome }}</p>
-          </ion-item>
-          <button ion-button full block color="primary" (click)="registroUser(ponto)">Salvar</button>
-        </ion-item>
-    </ion-list>
-  </ion-content>
+<!-- <ion-content padding>
+<ion-content>
+<ion-list>
+<ion-item *ngFor="let ponto of pontos">
+<p>{{ponto.keyReference}}</p>
+<p>{{ponto.lat}}</p>
+<ion-item *ngFor="let user of ponto.usuarios">
+<p>{{ user.nome }}</p>
+</ion-item>
+<button ion-button full block color="primary" (click)="registroUser(ponto)">Salvar</button>
+</ion-item>
+</ion-list>
+</ion-content>
+</ion-content> -->
+
+<ion-content>
+  <ion-list [virtualScroll]="pontos">
+    <ion-item *virtualItem="let ponto">
+      <p>{{ponto.keyReference}}</p>
+      <p>{{ponto.lat}}</p>
+      <div *ngIf="pontos.usuarios != undefined">
+        <p>{{ponto.usuarios}}</p>
+      </div>
+      <button ion-button full block color="primary" (click)="registroUser(ponto)">Salvar</button>
+    </ion-item>
+  </ion-list>
 </ion-content>
