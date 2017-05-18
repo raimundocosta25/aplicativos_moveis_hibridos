@@ -10,6 +10,7 @@ import { TabsPage } from '../pages/tabs/tabs';
 import { ListaPage } from '../pages/lista/lista';
 import { LoginPage } from '../pages/login/login';
 import { CadastroPage } from '../pages/cadastro/cadastro';
+import { RotasPage } from '../pages/rotas/rotas';
 
 import { LocalProvider } from '../providers/local-provider';
 import { UsuarioProvider } from '../providers/usuario-provider';
@@ -38,7 +39,8 @@ const firebaseConfig = {
     ListaPage,
     LoginPage,
     CadastroPage,
-    TabsPage
+    TabsPage,
+    RotasPage
   ],
   imports: [
     BrowserModule,
@@ -53,7 +55,8 @@ const firebaseConfig = {
     ListaPage,
     LoginPage,
     CadastroPage,
-    TabsPage
+    TabsPage,
+    RotasPage
   ],
   providers: [
     StatusBar,

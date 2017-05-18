@@ -2,8 +2,7 @@ import { Usuario } from './usuario';
 
 export class Ponto{
   nome:string;
-  lat:any;
-  lng:any;
+  lat:number;
+  lng:number;
   keyReference:any;
-  usuarios:Array<Usuario>;
 }

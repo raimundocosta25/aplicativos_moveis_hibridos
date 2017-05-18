@@ -1,10 +1,11 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { App } from 'ionic-angular';
 
 import { Geolocation } from '@ionic-native/geolocation';
 
 import { Ponto } from '../models/ponto';
 import { Usuario } from '../models/usuario';
+import { Lista } from '../models/lista';
 
 import { ListaPage } from '../pages/lista/lista';
 
@@ -13,10 +14,10 @@ import firebase from 'firebase';
 declare var google;
 
 /*
-  Generated class for the LocalProvider provider.
+Generated class for the LocalProvider provider.
 
-  See https://angular.io/docs/ts/latest/guide/dependency-injection.html
-  for more info on providers and Angular 2 DI.
+See https://angular.io/docs/ts/latest/guide/dependency-injection.html
+for more info on providers and Angular 2 DI.
 */
 @Injectable()
 export class LocalProvider {
@@ -25,6 +26,7 @@ export class LocalProvider {
   reference;
   pontos:Ponto;
   array:Array<number>;
+  retornoPontos = new EventEmitter<boolean>();
 
   constructor(private app: App) {
 
@@ -38,6 +40,7 @@ export class LocalProvider {
   }
 
   inicialize(){
+
     this.reference = firebase.database().ref('/pontos/');
   }
 
@@ -80,41 +83,23 @@ export class LocalProvider {
 
   }
 
-  getPontos(){
-    let innerArray = new Array<Ponto>();
-    this.reference.on('value', (snapshot) => {
+  getPontos():Promise<Array<Ponto>>{
+    return new Promise(resolve => {
+      let innerArray = new Array<Ponto>();
+      this.reference.on('value', (snapshot) => {
         snapshot.forEach( elemento => {
           let el = elemento.val();
           innerArray.push(el);
-          // console.log(el);
         })
-        // console.log("Entrou");
-    })
-    return innerArray;
+        resolve(innerArray);
+      })
+    });
+
   }
 
   addUsuario(ponto:Ponto, usuario:Usuario){
-
-    if(usuario.pontoKey == undefined){
-      usuario.pontoKey = ponto.keyReference;
-      firebase.database().ref('/usuarios/').child(usuario.keyReference).update(usuario);
-      ponto.usuarios = new Array<Usuario>();
-      let keyRef = ponto.keyReference;
-      ponto.usuarios.push(usuario);
-      this.reference.child(keyRef).update(ponto);
-    }else{
-      this.reference.on('value', (snapshot) => {
-          snapshot.forEach( elemento => {
-            let el = elemento.val();
-            if(el.keyReference == usuario.pontoKey){
-              var index = el.usuarios.indexOf(usuario);
-              el.usuarios.splice(index, 1);
-              this.reference.child(el.keyReference).update(el);
-            }
-          })
-          // console.log("Entrou");
-      })
-    }
+    usuario.pontoKey = ponto.keyReference;
+    firebase.database().ref('/usuarios/').child(usuario.keyReference).update(usuario);
   }
 
 }

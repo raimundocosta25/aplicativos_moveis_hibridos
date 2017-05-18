@@ -3,7 +3,7 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Cadastro</ion-title>
+    <ion-title>Lista</ion-title>
     <!-- <ion-buttons end>
     <button ion-button icon-only (click)="addCadastro()">
     <ion-icon name="add"></ion-icon>
@@ -12,31 +12,39 @@
 </ion-navbar>
 </ion-header>
 
-
 <!-- <ion-content padding>
-<ion-content>
-<ion-list>
-<ion-item *ngFor="let ponto of pontos">
+<ion-list [virtualScroll]="pontos">
+<ion-item *virtualItem="let ponto">
 <p>{{ponto.keyReference}}</p>
 <p>{{ponto.lat}}</p>
-<ion-item *ngFor="let user of ponto.usuarios">
-<p>{{ user.nome }}</p>
+<ion-list [virtualScroll]="lista">
+<ion-item *virtualItem="let teste">
+<ion-list [virtualScroll]="teste">
+<ion-item *virtualItem="let user">
+<p>{{user.nome}}</p>
+<p>{{user.pontoKey}}</p>
 </ion-item>
+</ion-list>
+</ion-item>
+</ion-list>
 <button ion-button full block color="primary" (click)="registroUser(ponto)">Salvar</button>
 </ion-item>
 </ion-list>
-</ion-content>
 </ion-content> -->
 
-<ion-content>
-  <ion-list [virtualScroll]="pontos">
-    <ion-item *virtualItem="let ponto">
-      <p>{{ponto.keyReference}}</p>
-      <p>{{ponto.lat}}</p>
-      <div *ngIf="pontos.usuarios != undefined">
-        <p>{{ponto.usuarios}}</p>
-      </div>
-      <button ion-button full block color="primary" (click)="registroUser(ponto)">Salvar</button>
+<ion-content padding>
+  <div *ngIf="listas">
+  <ion-list>
+    <ion-item *ngFor="let lista of listas">
+      <p>{{lista.ponto.keyReference}}</p>
+      <p>{{lista.ponto.lat}}</p>
+        <ion-item *ngFor="let user of lista.usuarios">
+          <p>{{user.nome}}</p>
+          <p>{{user.pontoKey}}</p>
+        </ion-item>
+      <button ion-button full block color="primary" (click)="registroUser(lista.ponto)">Salvar</button>
     </ion-item>
   </ion-list>
+</div>
+  <!-- </div> -->
 </ion-content>
