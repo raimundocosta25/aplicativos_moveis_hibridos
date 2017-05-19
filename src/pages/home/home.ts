@@ -1,9 +1,13 @@
 import { Component, ViewChild, ElementRef, NgZone, OnInit, EventEmitter } from '@angular/core';
 import { NavController, Platform, ToastController } from 'ionic-angular';
 
+import { Usuario } from '../../models/usuario';
 import { Ponto } from '../../models/ponto';
+import { Lista } from '../../models/lista';
 
-import { LocalProvider } from "../../providers/local-provider";
+
+import { UsuarioProvider } from '../../providers/usuario-provider';
+import { LocalProvider } from '../../providers/local-provider';
 
 import { Geolocation } from '@ionic-native/geolocation';
 
@@ -23,13 +27,18 @@ export class HomePage {
   @ViewChild('map') mapElement: ElementRef;
   map: any;
   position:any;
-  pontos:Ponto;
+  // pontos:Ponto;
+  usuarios:Array<Usuario>;
+  pontos:Array<Ponto>;
+  listas:Array<Lista>;
   emitirRetorno = new EventEmitter<boolean>();
+  time = new Date();
 
   constructor(public navCtrl: NavController,
     private geolocation: Geolocation,
     platform: Platform,
-    public localProvider: LocalProvider,
+    public localPrv: LocalProvider,
+    public usuarioPrv: UsuarioProvider,
     public toastCtrl: ToastController,
     public ngZone: NgZone) {
 
@@ -44,23 +53,26 @@ export class HomePage {
       }
     });
 
-    this.pontos = new Ponto();
   }
 
   inicio() {
 
-    this.localProvider.reference.on('value', (snapshot) => {
-      this.ngZone.run( () => {
-        // let innerArray = new Array();
-        snapshot.forEach( elemento => {
-          this.pontos = elemento.val();
-          // console.log(this.pontos);
-          this.addMarker(this.pontos);
-          // innerArray.push(el);
-        })
+    this.localPrv.getPontos().then(result => {
+      this.pontos = result;
+      console.log(this.pontos);
 
-      })
-    })
+      this.usuarioPrv.getUsuarios().then(result => {
+        this.usuarios = result;
+        console.log(this.usuarios);
+        this.listando();
+
+        for(let i=0; i < this.pontos.length; i++){
+          if(this.listas[i].ponto.inicio < this.time.getHours() && this.time.getHours() < this.listas[i].ponto.fim){
+          this.localPrv.addPontos(this.map, this.listas[i].ponto, this.listas[i].usuarios);
+        }
+      }
+    });
+    });
   }
 
   loadMap(){
@@ -85,8 +97,26 @@ export class HomePage {
 
   }
 
-  addMarker(pos){
-    this.localProvider.addPontos(this.map, pos);
+  // addMarker(pos){
+  //   this.localPrv.addPontos(this.map, pos);
+  // }
+
+  listando(){
+    console.log(this.usuarios);
+    console.log(this.pontos);
+    let lista = new Array<Lista>();
+    for(let i=0; i < this.pontos.length; i++){
+      lista[i] = new Lista();
+      lista[i].ponto = new Ponto();
+      lista[i].ponto = this.pontos[i];
+      for(let j=0; j < this.usuarios.length; j++){
+        if(lista[i].ponto.keyReference == this.usuarios[j].pontoKey){
+          lista[i].usuarios.push(this.usuarios[j]);
+        }
+      }
+    }
+    this.listas = lista;
+    console.log(this.listas);
   }
 
 }

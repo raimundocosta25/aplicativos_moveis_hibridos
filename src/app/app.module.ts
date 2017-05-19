@@ -15,6 +15,9 @@ import { RotasPage } from '../pages/rotas/rotas';
 import { LocalProvider } from '../providers/local-provider';
 import { UsuarioProvider } from '../providers/usuario-provider';
 
+import { FormsModule } from '@angular/forms';
+import { TextMaskModule } from 'angular2-text-mask';
+
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Geolocation } from '@ionic-native/geolocation';
@@ -43,6 +46,8 @@ const firebaseConfig = {
     RotasPage
   ],
   imports: [
+    FormsModule,
+    TextMaskModule,
     BrowserModule,
     IonicModule.forRoot(MyApp)
   ],

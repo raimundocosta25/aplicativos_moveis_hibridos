@@ -33,6 +33,16 @@
       </ion-item>
 
       <ion-item>
+        <ion-label floating>Inicio</ion-label>
+        <ion-input type="number" name="inicio" [(ngModel)]="ponto.inicio"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Fim</ion-label>
+        <ion-input type="number" name="fim" [(ngModel)]="ponto.fim"></ion-input>
+      </ion-item>
+
+      <ion-item>
         <button ion-button full block color="primary" (click)="registrarPonto()">Salvar</button>
       </ion-item>
     </ion-list>

@@ -58,16 +58,25 @@ export class LocalProvider {
 
   }
 
-  addPontos(map, position){
+  addPontos(map, ponto:Ponto, usuarios:Array<Usuario>){
+
+    let image = {
+      url: 'https://image.flaticon.com/icons/png/128/0/622.png',
+      // This marker is 20 pixels wide by 32 pixels high.
+      size: new google.maps.Size(20, 32)
+    };
 
     let marker = new google.maps.Marker({
       map: map,
       // animation: google.maps.Animation.DROP,
       title: "Teste",
-      position: new google.maps.LatLng(position)
+      position: new google.maps.LatLng(ponto)
+      // icon: image
     });
 
-    let content = document.getElementById('teste');
+    let content = document.getElementById("teste");
+
+    // let content = document.getElementById('teste');
 
     let infoWindow = new google.maps.InfoWindow({
       content: content

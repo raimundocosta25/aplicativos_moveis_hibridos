@@ -25,6 +25,7 @@ export class ListaPage {
   pontos:Array<Ponto>;
   listas:Array<Lista>;
   retorno = new EventEmitter<boolean>();
+  time = new Date();
   // cadastros: FirebaseListObservable<any>;
 
   constructor(public navCtrl: NavController,
@@ -33,6 +34,10 @@ export class ListaPage {
     public toastCtrl: ToastController,
     public ngZone: NgZone,
     public alertCtrl: AlertController) {
+
+      if(10 < this.time.getHours() && this.time.getHours() < 12){
+        console.log("entrou");
+      }
 
     }
 

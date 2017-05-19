@@ -5,4 +5,6 @@ export class Ponto{
   lat:number;
   lng:number;
   keyReference:any;
+  inicio:number;
+  fim:number;
 }

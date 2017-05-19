@@ -33,6 +33,9 @@
 </ion-content> -->
 
 <ion-content padding>
+  <p>
+    {{time.getHours()}}
+  </p>
   <div *ngIf="listas">
   <ion-list>
     <ion-item *ngFor="let lista of listas">

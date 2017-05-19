@@ -1,6 +1,8 @@
 import { Component, EventEmitter } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 
+import { FormBuilder, FormGroup, Validators} from '@angular/forms';
+
 import { UsuarioProvider } from '../../providers/usuario-provider';
 
 import { LoginPage } from '../login/login';
@@ -18,13 +20,16 @@ import firebase from 'firebase';
 })
 export class CadastroPage {
 
+  // public mask: Array<string | RegExp>;
   user:User;
   usuario:Usuario;
 
   constructor(public navParams: NavParams,
     public navCtrl: NavController,
-    public usuarioPrv: UsuarioProvider) {
+    public usuarioPrv: UsuarioProvider,
+    public fb: FormBuilder) {
 
+      // this.mask = ['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
       this.user = new User();
       this.usuario = new Usuario();
 

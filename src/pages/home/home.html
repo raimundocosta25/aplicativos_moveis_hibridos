@@ -14,10 +14,13 @@
 
 <!-- Content do InfoWindow -->
 <div id="teste">
-  <ul class="list-group">
-    <li class="list-group-item">Fulano</li>
-    <li class="list-group-item">Ciclano</li>
-    <li class="list-group-item">Beltrano</li>
-  </ul>
-  <button>Add</button>
-</div>
+  <div *ngFor="let lista of listas">
+    {{ addPontos(maps, lista.ponto, lista.usuarios) }}
+    <div *ngFor="let usuario of lista.usuarios">
+      <p>usuario.nome</p>
+      <p>usuario.pontoKey</p>
+    </div>
+  </div>
+  <div><p>ponto.lat</p>
+    <p>ponto.keyReference</p></div>
+  </div>

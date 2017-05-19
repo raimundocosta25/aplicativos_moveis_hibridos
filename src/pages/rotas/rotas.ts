@@ -22,7 +22,7 @@ export class RotasPage {
     this.ponto = new Ponto();
   }
 
-  ionViewDidLoad() {}
+  ionViewWillEnter() {}
 
   registrarPonto(){
     this.ponto.lat = +this.ponto.lat;
